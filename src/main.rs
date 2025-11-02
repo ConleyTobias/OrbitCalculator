@@ -50,16 +50,22 @@ fn main() {
         if input.trim().parse::<f64>().is_ok() {
             num = input.trim().parse().expect("Failed to convert String into u8");
         } else {
-            num = atomic_number.iter().position(|&r| r == input).unwrap() as u8
+            num = atomic_number.iter().position(|&r| r == input.trim()).unwrap_or(0) as u8;
+            if num == 0 {
+                println!("Invalid number/letter(s)");
+                continue;
+            }
         }
 
         if num == 1 {
-            print!("1s^1");
+            println!("1s^1");
+            continue;
         } else if num == 2 {
-            print!("1s^2");
+            println!("1s^2");
+            continue;
         } else if num > 118 {
-            print!("Invalid: too high. Process will stop.");
-            break;
+            print!("Invalid: too high");
+            continue;
         }
 
         //Calculate
@@ -83,7 +89,7 @@ fn main() {
             i += 1;
         }
 
-        println!("\r{}", total);
+        println!("\r1s^2 {}", total);
     }
 
 }
