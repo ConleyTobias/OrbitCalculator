@@ -44,7 +44,7 @@ fn main() {
         let mut count:u8 = 0;
         let mut total:String = String::new();
 
-        io::stdin().read_line(&mut input).expect("TODO: panic message"); //Reads Line
+        io::stdin().read_line(&mut input).expect("Error reading input"); //Reads Line
 
         //Convert input to atomic number from number or symbol
         if input.trim().parse::<f64>().is_ok() {
