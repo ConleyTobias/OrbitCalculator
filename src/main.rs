@@ -12,33 +12,32 @@ fn main() {
         "Rf", "Db", "Sg", "Bh", "Hs", "Mt", "Ds", "Rg", "Cn", "Fl", "Lv", "Ts", "Og"
     ];
 
-    let orbital: Vec<&str> = vec![
-       "1s", "1s",
-       "2s", "2s",
-       "2p", "2p", "2p", "2p", "2p", "2p",
-       "3s", "3s",
-       "3p", "3p", "3p", "3p", "3p", "3p",
-       "4s", "4s",
-       "3d", "3d", "3d", "3d", "3d", "3d", "3d", "3d", "3d", "3d",
-       "4p", "4p", "4p", "4p", "4p", "4p",
-       "5s", "5s",
-       "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d", "4d",
-       "5p", "5p", "5p", "5p", "5p", "5p",
-       "6s", "6s",
-       "4f", "4f", "4f", "4f", "4f", "4f", "4f", "4f", "4f", "4f", "4f", "4f", "4f", "4f",
-       "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d", "5d",
-       "6p", "6p", "6p", "6p", "6p", "6p",
-       "7s", "7s",
-       "5f", "5f", "5f", "5f", "5f", "5f", "5f", "5f", "5f", "5f", "5f", "5f", "5f", "5f",
-       "6d", "6d", "6d", "6d", "6d", "6d", "6d", "6d", "6d", "6d",
-       "7p", "7p", "7p", "7p", "7p", "7p"
+    let orbitals = vec![
+        ("1s", 2),
+        ("2s", 2),
+        ("2p", 6),
+        ("3s", 2),
+        ("3p", 6),
+        ("4s", 2),
+        ("3d", 10),
+        ("4p", 6),
+        ("5s", 2),
+        ("4d", 10),
+        ("5p", 6),
+        ("6s", 2),
+        ("4f", 14),
+        ("5d", 10),
+        ("6p", 6),
+        ("7s", 2),
+        ("5f", 14),
+        ("6d", 10),
+        ("7p", 6),
     ];
 
     loop {
         //Declare variables
         let mut input: String = String::new();
         let mut num:u8 = 0;
-        let mut i:u8 = 0;
         let mut current:&str = "";
         let mut last:&str = "";
         let mut count:u8 = 0;
@@ -58,38 +57,38 @@ fn main() {
         }
 
         if num == 1 {
-            println!("1s^1");
+            println!("1s1");
             continue;
         } else if num == 2 {
-            println!("1s^2");
+            println!("1s2");
             continue;
         } else if num > 118 {
             print!("Invalid: too high");
             continue;
         }
 
+        let mut i:usize = 0;
+        let mut remaining:u8 = num;
+
         //Calculate
-        while i < num {
-            current = orbital.get(i as usize).unwrap();
-
-            if last != "" {
-                if current == last {
-                    count += 1;
-                } else {
-                    total += current;
-                    total += "^";
-                    total += count.to_string().as_str();
-                    total += " ";
-
-                    count = 0;
-                }
+        while remaining > 0 {
+            let (name, capacity) = orbitals[i];
+            if capacity < remaining {
+                total.push_str(name);
+                total.push_str(capacity.to_string().as_str());
+                total.push_str(" ");
+                remaining -= capacity;
+                i += 1;
+            } else {
+                total.push_str(name);
+                total.push_str(remaining.to_string().as_str());
+                total.push_str(" ");
+                remaining = 0;
             }
 
-            last = current;
-            i += 1;
         }
 
-        println!("\r1s^2 {}", total);
+        println!("{}", total);
     }
 
 }
